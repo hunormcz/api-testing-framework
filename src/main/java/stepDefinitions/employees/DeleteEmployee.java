@@ -1,6 +1,7 @@
 package stepDefinitions.employees;
 
 import apiCommon.ApiConstants;
+import apiCommon.ApiRequests;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import utils.Logger;
@@ -12,12 +13,6 @@ public class DeleteEmployee {
 
     @When("^Delete employee request for id: (.*)$")
     public void deleteSingleEmployee(String id) {
-        if (id.equals("[blank])")) {
-            id = "";
-        }
-        Logger.log("sending delete request for id: %s", id);
-        Response response = delete( ApiConstants.DELETE_ENDPOINT+"2");
-        Logger.log("response: "+ response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
+        ApiRequests.deleteEmployee(id);
     }
 }

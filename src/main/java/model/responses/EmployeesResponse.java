@@ -9,11 +9,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Employees {
+public class EmployeesResponse {
     @JsonProperty("status")
     private String status;
     @JsonProperty("data")
-    private List<Employee> data;
+    private List<Employee> employees;
     @JsonProperty("message")
     private String message;
 }

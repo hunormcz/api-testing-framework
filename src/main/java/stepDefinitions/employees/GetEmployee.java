@@ -1,12 +1,17 @@
 package stepDefinitions.employees;
 
 import apiCommon.ApiConstants;
+import apiCommon.ApiRequests;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.DataTableType;
+import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import model.Employee;
+import model.responses.EmployeeResponse;
 import utils.Logger;
 import utils.TestContext;
 
@@ -25,15 +30,24 @@ public class GetEmployee {
 
     @When("^Get request on v1/employee for id: (.*)$")
     public void getSingleEmployee(String id) {
-        if (id.equals("[blank])")) {
-            id = "";
+        try {
+            EmployeeResponse employeeResponse = ApiRequests.getEmployee(id);
+            TestContext.INSTANCE.add("employeeResponse", employeeResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-
-        Logger.log("get request to employee with id %s", id);
-        Response response = get(ApiConstants.EMPLOYEE_ENDPOINT+id);
-        Logger.log("response: "+ response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
     }
+    @When("^Get request on v1/employee with empty Id$")
+    public void getEmployeeEmptyId() {
+
+        try {
+            EmployeeResponse employeeResponse = ApiRequests.getEmployee("");
+            TestContext.INSTANCE.add("employeeResponse", employeeResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @When("^Get request on v1/employee for the user created above$")
     public void getCreatedEmployee() {
@@ -41,9 +55,11 @@ public class GetEmployee {
         //String id = ((Map<String, Object>) response.jsonPath().get("data")).get("id");
         String id = "23";
 
-        Logger.log("get request to employee with id %s", id);
-        Response response = get(ApiConstants.EMPLOYEE_ENDPOINT+id);
-        Logger.log("response: "+ response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
+        try {
+            EmployeeResponse employeeResponse = ApiRequests.getEmployee(id);
+            TestContext.INSTANCE.add("employeeResponse", employeeResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

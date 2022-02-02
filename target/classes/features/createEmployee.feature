@@ -13,12 +13,12 @@ Feature: create Employees
       | salary | <salary> |
       | age    | <age>    |
     And Get request on v1/employee for the user created above
-    #additional assertion because of endpoint instability - frequenst 429
+    #additional assertion because of endpoint instability - frequent 429
     Then Response status is 200 OK
-    And The response has the following data:
-      | employee_name   | <name>   |
-      | employee_salary | <salary> |
-      | employee_age    | <age>    |
+    And The employee is returned with data:
+      | name   | <name>   |
+      | salary | <salary> |
+      | age    | <age>    |
     Examples:
       | name         | salary | age |
       | Caesar Vance | 106450 | 21  |
