@@ -6,7 +6,7 @@ Feature: Get Employees
       | name   | <name>   |
       | salary | <salary> |
       | age    | <age>    |
-    When Send post request on /create
+    And Send post request on /create
     When Get request on v1/employee for the user created above
     Then Response status is 200 OK
     And Response schema corresponds with baseline: baselines/getEmployeeSchema.json

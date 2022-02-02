@@ -9,11 +9,11 @@ import org.junit.runner.RunWith;
         plugin = {"pretty", "html:target/cucumber", "json:target/jsonReports/EmployeeTests.json"},
         glue = "stepDefinitions",
         features = {
-                "src/test/resources/features/createEmployee.feature",
-                "src/test/resources/features/getEmployee.feature",
-                "src/test/resources/features/getEmployees.feature",
-                "src/test/resources/features/putEmployee.feature",
-                "src/test/resources/features/deleteEmployee.feature"
+                "src/main/resources/features/createEmployee.feature",
+                "src/main/resources/features/getEmployee.feature",
+                "src/main/resources/features/getEmployees.feature",
+                "src/main/resources/features/putEmployee.feature",
+                "src/main/resources/features/deleteEmployee.feature"
 
         })
 public class EmployeeTestsRunner {

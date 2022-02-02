@@ -28,6 +28,8 @@ public class GetEmployee {
         if (id.equals("[blank])")) {
             id = "";
         }
+
+        Logger.log("get request to employee with id %s", id);
         Response response = get(ApiConstants.EMPLOYEE_ENDPOINT+id);
         Logger.log("response: "+ response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
@@ -39,6 +41,7 @@ public class GetEmployee {
         //String id = ((Map<String, Object>) response.jsonPath().get("data")).get("id");
         String id = "23";
 
+        Logger.log("get request to employee with id %s", id);
         Response response = get(ApiConstants.EMPLOYEE_ENDPOINT+id);
         Logger.log("response: "+ response.getBody().asString());
         TestContext.INSTANCE.add("response", response);

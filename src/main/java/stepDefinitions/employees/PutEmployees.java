@@ -22,7 +22,7 @@ public class PutEmployees {
         String employeeId = "23";
         //endpoint only has mock data, employee is not created - using available data
         //String id = ((Map<String, Object>) response.jsonPath().get("data")).get("id");
-
+        Logger.log("sending put request for id: %s", employeeId);
         Response response = put(ApiConstants.UPDATE_ENDOINT+employeeId);
         Logger.log("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);

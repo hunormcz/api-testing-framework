@@ -25,12 +25,11 @@ public class GetEmployees {
 
     @When("^Get request on v1/employees$")
     public void getRequest() {
+        Logger.log("get request to all employees");
         Response response = get(ApiConstants.EMPLOYEES_ENDPOINT);
         Logger.log("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
     }
-
-
 
     @DataTableType(replaceWithEmptyString = "[blank]")
     public String stringType(String cell) {
