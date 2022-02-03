@@ -6,8 +6,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
-import model.Employee;
-import model.responses.EmployeeResponse;
 import model.responses.EmployeesResponse;
 import utils.TestContext;
 

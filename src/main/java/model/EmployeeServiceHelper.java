@@ -11,10 +11,7 @@ public class EmployeeServiceHelper {
     public static Employee employeeMapper(Map<String, String> employeeData) {
         Employee employee = null;
         try {
-            employee = new Employee();
-            employee.setSalary(Integer.parseInt(employeeData.get("salary")));
-            employee.setName(employeeData.get("name"));
-            employee.setAge(Integer.parseInt(employeeData.get("age")));
+            employee = new Employee(employeeData.get("name"),Integer.parseInt(employeeData.get("salary")),  Integer.parseInt(employeeData.get("age")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,7 +29,6 @@ public class EmployeeServiceHelper {
         if (!expected.getSalary().toString().equals(actual.getSalary().toString())){
             differences.append(String.format("Expected emplyee salary: %s, Actual: %s", expected.getSalary(), actual.getSalary()));
         }
-
 
         return differences.toString();
     }

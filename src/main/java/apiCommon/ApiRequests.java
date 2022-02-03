@@ -14,10 +14,10 @@ import utils.TestContext;
 import static io.restassured.RestAssured.*;
 
 public class ApiRequests {
-    private static String baseUrl = ConfigManager.getInstance().getBaseUrl();
+    private String baseUrl = ConfigManager.getInstance().getBaseUrl();
     static ObjectMapper mapper = new ObjectMapper();
 
-    public static EmployeeResponse getEmployee(String id) throws JsonProcessingException {
+    public EmployeeResponse getEmployee(String id) throws JsonProcessingException {
         Logger.log("get request to employee with id %s", id);
         Response response = get(baseUrl + ApiEndpoints.EMPLOYEE_ENDPOINT + id);
         ;
@@ -28,7 +28,7 @@ public class ApiRequests {
         return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
     }
 
-    public static EmployeesResponse getEmployees() throws JsonProcessingException {
+    public EmployeesResponse getEmployees() throws JsonProcessingException {
         Logger.log("get request to all employees");
         Response response = get(baseUrl + ApiEndpoints.EMPLOYEES_ENDPOINT);
         Logger.log("response: ", response.getBody().asString());
@@ -38,7 +38,7 @@ public class ApiRequests {
         return mapper.readValue(response.getBody().asString(), EmployeesResponse.class);
     }
 
-    public static void postEmployee() {
+    public void postEmployee() {
         Logger.log("sending post request with partial data...");
         JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
 
@@ -54,7 +54,7 @@ public class ApiRequests {
 
     }
 
-    public static EmployeeResponse postEmployee(Employee employee) throws JsonProcessingException {
+    public EmployeeResponse postEmployee(Employee employee) throws JsonProcessingException {
         Logger.log("sending post request...");
 
         Response response = given()
@@ -70,7 +70,7 @@ public class ApiRequests {
         return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
     }
 
-    public static EmployeeResponse putEmployee(String id, Employee employee) throws JsonProcessingException {
+    public EmployeeResponse putEmployee(String id, Employee employee) throws JsonProcessingException {
 
         Logger.log("sending put request for id: %s", id);
         Response response = given()
@@ -83,7 +83,7 @@ public class ApiRequests {
         return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
     }
 
-    public static void putEmployee(String id) {
+    public void putEmployee(String id) {
         Logger.log("sending put request with partial data...");
         JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
 
@@ -96,12 +96,10 @@ public class ApiRequests {
         TestContext.INSTANCE.add("response", response);
     }
 
-    public static void deleteEmployee(String id) {
+    public void deleteEmployee(String id) {
         Logger.log("sending delete request for id: %s", id);
         Response response = delete(baseUrl + ApiEndpoints.DELETE_ENDPOINT + "2");
         Logger.log("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
     }
-
-
 }

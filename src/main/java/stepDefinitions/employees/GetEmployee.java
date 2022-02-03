@@ -12,11 +12,12 @@ import static org.junit.Assert.assertThat;
 
 
 public class GetEmployee {
+    ApiRequests apiRequests = new ApiRequests();
 
     @When("^Get request on v1/employee for id: (.*)$")
     public void getSingleEmployee(String id) {
         try {
-            EmployeeResponse employeeResponse = ApiRequests.getEmployee(id);
+            EmployeeResponse employeeResponse = apiRequests.getEmployee(id);
             TestContext.INSTANCE.add("employeeResponse", employeeResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -26,7 +27,7 @@ public class GetEmployee {
     public void getEmployeeEmptyId() {
 
         try {
-            EmployeeResponse employeeResponse = ApiRequests.getEmployee("");
+            EmployeeResponse employeeResponse = apiRequests.getEmployee("");
             TestContext.INSTANCE.add("employeeResponse", employeeResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class GetEmployee {
         String id = "23";
 
         try {
-            EmployeeResponse employeeResponse = ApiRequests.getEmployee(id);
+            EmployeeResponse employeeResponse = apiRequests.getEmployee(id);
             TestContext.INSTANCE.add("employeeResponse", employeeResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

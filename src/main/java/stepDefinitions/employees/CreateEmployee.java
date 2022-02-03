@@ -15,6 +15,7 @@ import static io.restassured.RestAssured.given;
 
 
 public class CreateEmployee {
+    ApiRequests apiRequests = new ApiRequests();
 
     @Given("^Create employee request:")
     public void createRequest(Map<String, String> employeeData) {
@@ -37,7 +38,7 @@ public class CreateEmployee {
         Employee employee = (Employee) TestContext.INSTANCE.get("employeeReq");
 
         try {
-            EmployeeResponse employeeResponse = ApiRequests.postEmployee(employee);
+            EmployeeResponse employeeResponse = apiRequests.postEmployee(employee);
             TestContext.INSTANCE.add("employeeResponse", employeeResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -46,7 +47,7 @@ public class CreateEmployee {
 
     @When("^Send invalid post request on /create$")
     public void sendInvalidPostRequest() {
-        ApiRequests.postEmployee();
+        apiRequests.postEmployee();
     }
 
 

@@ -1,7 +1,6 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.cucumber.messages.internal.com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +21,11 @@ public class Employee{
     @JsonProperty("profile_image")
     private String image;
 
-//    public Employee(String name, Integer salary, Integer age) {
-//        this.name = name;
-//        this.salary = salary;
-//        this.age = age;
-//    }
+    public Employee(){}
+
+    public Employee(String name, Integer salary, Integer age) {
+        this.name = name;
+        this.salary = salary;
+        this.age = age;
+    }
 }

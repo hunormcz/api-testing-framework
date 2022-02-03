@@ -11,11 +11,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class GetEmployees {
+    ApiRequests apiRequests = new ApiRequests();
 
     @When("^Get request on v1/employees$")
     public void getRequest() {
         try {
-            EmployeesResponse employeesResponse = ApiRequests.getEmployees();
+            EmployeesResponse employeesResponse = apiRequests.getEmployees();
             TestContext.INSTANCE.add("employeesResponse", employeesResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
