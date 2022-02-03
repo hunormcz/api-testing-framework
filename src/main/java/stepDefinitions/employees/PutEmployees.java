@@ -1,6 +1,6 @@
 package stepDefinitions.employees;
 
-import apiCommon.ApiConstants;
+import apiCommon.ApiEndpoints;
 import apiCommon.ApiRequests;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -13,7 +13,7 @@ public class PutEmployees {
 
     @When("^Put request on v1/update with id : (.*)$")
     public void putRequestId(int employeeId) {
-        Response response = put(ApiConstants.UPDATE_ENDPOINT +employeeId);
+        Response response = put(ApiEndpoints.UPDATE_ENDPOINT +employeeId);
         Logger.log("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
     }

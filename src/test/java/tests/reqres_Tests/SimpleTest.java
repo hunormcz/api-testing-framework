@@ -1,4 +1,4 @@
-package Tests.reqres_Tests;
+package tests.reqres_Tests;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

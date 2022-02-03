@@ -1,4 +1,4 @@
-package Tests.reqres_Tests;
+package tests.reqres_Tests;
 
 import utils.Logger;
 import io.restassured.http.ContentType;

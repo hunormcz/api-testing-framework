@@ -1,4 +1,4 @@
-package Tests.reqres_Tests;
+package tests.reqres_Tests;
 
 import io.restassured.response.Response;
 import org.junit.Test;

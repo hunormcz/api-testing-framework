@@ -1,15 +1,8 @@
 package stepDefinitions.employees;
 
-import apiCommon.ApiConstants;
 import apiCommon.ApiRequests;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
-import model.responses.EmployeeResponse;
-import org.json.simple.JSONObject;
-import utils.Logger;
-import utils.TestContext;
 
 import java.util.Map;
 

@@ -1,17 +1,12 @@
 package stepDefinitions.employees;
 
-import apiCommon.ApiConstants;
 import apiCommon.ApiRequests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.DataTableType;
-import model.responses.EmployeeResponse;
 import model.responses.EmployeesResponse;
-import utils.Logger;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import utils.TestContext;
 
-import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

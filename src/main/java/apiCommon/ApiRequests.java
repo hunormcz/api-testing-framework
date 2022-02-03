@@ -20,7 +20,8 @@ public class ApiRequests {
 
     public static EmployeeResponse getEmployee(String id) throws JsonProcessingException {
         Logger.log("get request to employee with id %s", id);
-        Response response = get(baseUrl + ApiConstants.EMPLOYEE_ENDPOINT + id);;
+        Response response = get(baseUrl + ApiEndpoints.EMPLOYEE_ENDPOINT + id);
+        ;
         Logger.log("response: " + response.getBody().asString());
 
         TestContext.INSTANCE.add("response", response);
@@ -30,7 +31,7 @@ public class ApiRequests {
 
     public static EmployeesResponse getEmployees() throws JsonProcessingException {
         Logger.log("get request to all employees");
-        Response response = get(baseUrl + ApiConstants.EMPLOYEES_ENDPOINT);
+        Response response = get(baseUrl + ApiEndpoints.EMPLOYEES_ENDPOINT);
         Logger.log("response: ", response.getBody().asString());
 
         TestContext.INSTANCE.add("response", response);
@@ -54,7 +55,6 @@ public class ApiRequests {
     }
 
 
-
     public static void createEmployee() {
         Logger.log("sending post request...");
         JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
@@ -64,7 +64,8 @@ public class ApiRequests {
                 .contentType("application/json")
                 .body(request.toJSONString())
                 .when()
-                .post(ApiConstants.CREATE_ENDPOINT);;
+                .post(baseUrl + ApiEndpoints.CREATE_ENDPOINT);
+        ;
 
         Logger.log("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
@@ -77,16 +78,16 @@ public class ApiRequests {
         JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
 
         Logger.log("sending put request for id: %s", id);
-        Response response = put(ApiConstants.UPDATE_ENDPOINT +id);
+        Response response = put(baseUrl + ApiEndpoints.UPDATE_ENDPOINT + id);
         Logger.log("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
 
 //        return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
     }
 
-    public static void deleteEmployee(String id)  {
+    public static void deleteEmployee(String id) {
         Logger.log("sending delete request for id: %s", id);
-        Response response = delete(ApiConstants.DELETE_ENDPOINT + "2");
+        Response response = delete(baseUrl + ApiEndpoints.DELETE_ENDPOINT + "2");
         Logger.log("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
     }

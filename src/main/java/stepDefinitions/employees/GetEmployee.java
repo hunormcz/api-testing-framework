@@ -1,27 +1,12 @@
 package stepDefinitions.employees;
 
-import apiCommon.ApiConstants;
 import apiCommon.ApiRequests;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.cucumber.java.DataTableType;
-import io.cucumber.java.bs.A;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.http.Header;
-import io.restassured.response.Response;
-import model.Employee;
 import model.responses.EmployeeResponse;
-import utils.Logger;
 import utils.TestContext;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import static io.restassured.RestAssured.get;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
