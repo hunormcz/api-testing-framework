@@ -14,7 +14,7 @@ import utils.TestContext;
 import static io.restassured.RestAssured.*;
 
 public class ApiRequests {
-    private String baseUrl = ConfigManager.getInstance().getBaseUrl();
+    private static String baseUrl = TestContext.INSTANCE.getBaseUrl();
     static ObjectMapper mapper = new ObjectMapper();
 
     public EmployeeResponse getEmployee(String id) throws JsonProcessingException {

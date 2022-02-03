@@ -1,12 +1,13 @@
 package utils;
 
+import java.io.ObjectInputFilter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestContext {
     public final static TestContext INSTANCE = new TestContext();
     private Map<String, Object> testContext;
-
+    private String baseUrl;
 
     private TestContext() {
         testContext = new HashMap<>();
@@ -28,5 +29,13 @@ public class TestContext {
     public void purge() {
         Logger.log("Purge TestContext.");
         this.testContext.clear();
+    }
+
+    public String getBaseUrl(){
+        return this.baseUrl;
+    }
+
+    public void initBaseUrl(){
+        this.baseUrl = ConfigManager.getInstance().getBaseUrl();
     }
 }
