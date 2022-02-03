@@ -2,6 +2,7 @@ package stepDefinitions.employees;
 
 import io.cucumber.java.en.And;
 import model.Employee;
+import model.EmployeeServiceHelper;
 import model.responses.EmployeeResponse;
 import utils.TestContext;
 
@@ -18,6 +19,17 @@ public class EmployeeAssertions {
         String differences = comparator(expectedData, employee.getEmployee());
         assertThat("Returned values are NOT correct:" + differences, differences.equals(""), is(true));
     }
+
+    @And("^The employee is returned with correct data")
+    public void assertEmployeeData() {
+        EmployeeResponse actualEmployee = (EmployeeResponse) TestContext.INSTANCE.get("employeeResponse");
+        Employee expectedEmployee = (Employee) TestContext.INSTANCE.get("employeeReq");
+
+        String differences = EmployeeServiceHelper.compareEmployees(expectedEmployee, actualEmployee.getEmployee());
+        assertThat("Returned values are NOT correct:" + differences, differences.equals(""), is(true));
+    }
+
+
     @And("^Employee response has status (.*) and message (.*)")
     public void assertEmployeeData(String expectedStatus, String expectedMessage) {
         EmployeeResponse employee = (EmployeeResponse) TestContext.INSTANCE.get("employeeResponse");
@@ -36,10 +48,10 @@ public class EmployeeAssertions {
             errormessage.append(String.format("Expected name: %s, Actual: %s", expected.get("name"), actual.getName()));
         }
         if (!actual.getAge().toString().equals(expected.get("age"))) {
-            errormessage.append(String.format("Expected name: %s, Actual: %s", expected.get("age"), actual.getAge()));
+            errormessage.append(String.format("Expected age: %s, Actual: %s", expected.get("age"), actual.getAge()));
         }
         if (!actual.getSalary().toString().equals(expected.get("salary"))) {
-            errormessage.append(String.format("Expected name: %s, Actual: %s", expected.get("salary"), actual.getSalary()));
+            errormessage.append(String.format("Expected salary: %s, Actual: %s", expected.get("salary"), actual.getSalary()));
         }
         return errormessage.toString();
     }

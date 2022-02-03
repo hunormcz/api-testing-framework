@@ -16,5 +16,5 @@ import org.junit.runner.RunWith;
                 "src/main/resources/features/deleteEmployee.feature"
 
         })
-public class EmployeeTestsRunner {
+public class GetEmployeeTests {
 }

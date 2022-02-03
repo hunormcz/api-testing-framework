@@ -1,9 +1,9 @@
 package apiCommon;
 
-import utils.ConfigFileReader;
+import utils.ConfigManager;
 
 public class ApiEndpoints {
-    public static final String BASE_URL = ConfigFileReader.getInstance().getBaseUrl();
+    public static final String BASE_URL = ConfigManager.getInstance().getBaseUrl();
     ;
     public static final String EMPLOYEE_ENDPOINT = "employee/";
     public static final String EMPLOYEES_ENDPOINT = "employees";

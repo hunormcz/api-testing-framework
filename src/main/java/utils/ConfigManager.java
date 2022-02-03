@@ -6,11 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigFileReader {
+public class ConfigManager {
     private Properties properties;
-    private static ConfigFileReader configReader;
+    private static ConfigManager configReader;
 
-    private ConfigFileReader() {
+    private ConfigManager() {
         BufferedReader reader;
         String propertyFilePath = "src/main/resources/configs/config.properties";
         try {
@@ -28,9 +28,9 @@ public class ConfigFileReader {
         }
     }
 
-    public static ConfigFileReader getInstance( ) {
+    public static ConfigManager getInstance( ) {
         if(configReader == null) {
-            configReader = new ConfigFileReader();
+            configReader = new ConfigManager();
         }
         return configReader;
     }

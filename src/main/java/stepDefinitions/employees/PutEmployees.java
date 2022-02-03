@@ -2,8 +2,11 @@ package stepDefinitions.employees;
 
 import apiCommon.ApiEndpoints;
 import apiCommon.ApiRequests;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import model.Employee;
+import model.responses.EmployeeResponse;
 import utils.Logger;
 import utils.TestContext;
 
@@ -12,10 +15,15 @@ import static io.restassured.RestAssured.put;
 public class PutEmployees {
 
     @When("^Put request on v1/update with id : (.*)$")
-    public void putRequestId(int employeeId) {
-        Response response = put(ApiEndpoints.UPDATE_ENDPOINT +employeeId);
-        Logger.log("response: ", response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
+    public void putRequestId(String employeeId) {
+        Employee employee = (Employee) TestContext.INSTANCE.get("employeeReq");
+
+        try {
+            EmployeeResponse employeeResponse = ApiRequests.putEmployee(employeeId, employee);
+            TestContext.INSTANCE.add("employeeResponse", employeeResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @When("^Put request on v1/update for the created resource$")
@@ -24,7 +32,23 @@ public class PutEmployees {
         //endpoint only has mock data, employee is not created - using available data
         //String id = ((Map<String, Object>) response.jsonPath().get("data")).get("id");
 
-        ApiRequests.updateEmployee(employeeId);
+        Employee employee = (Employee) TestContext.INSTANCE.get("employeeReq");
+
+        try {
+            EmployeeResponse employeeResponse = ApiRequests.putEmployee(employeeId, employee);
+            TestContext.INSTANCE.add("employeeResponse", employeeResponse);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("^Send invalid Put request on v1/update$")
+    public void putRequestInvalidRequest() {
+        String employeeId = "23";
+        //endpoint only has mock data, employee is not created - using available data
+        //String id = ((Map<String, Object>) response.jsonPath().get("data")).get("id");
+
+         ApiRequests.putEmployee(employeeId);
     }
 
 }

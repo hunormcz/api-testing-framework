@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Employee{
-    @JsonProperty("id")
+      @JsonProperty("id")
     private Integer id;
     @JsonProperty("employee_name")
 //    @JsonAlias({"employee_name", "name"})
@@ -21,4 +21,10 @@ public class Employee{
     private Integer age;
     @JsonProperty("profile_image")
     private String image;
+
+//    public Employee(String name, Integer salary, Integer age) {
+//        this.name = name;
+//        this.salary = salary;
+//        this.age = age;
+//    }
 }
