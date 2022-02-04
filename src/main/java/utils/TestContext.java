@@ -36,6 +36,6 @@ public class TestContext {
     }
 
     public void initBaseUrl(){
-        this.baseUrl = ConfigManager.getInstance().getBaseUrl();
+        this.baseUrl = ConfigManager.INSTANCE.getBaseUrl();
     }
 }

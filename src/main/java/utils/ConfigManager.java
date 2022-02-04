@@ -8,7 +8,8 @@ import java.util.Properties;
 
 public class ConfigManager {
     private Properties properties;
-    private static ConfigManager configReader;
+    public final static ConfigManager INSTANCE= new ConfigManager();
+
 
     private ConfigManager() {
         BufferedReader reader;
@@ -26,13 +27,6 @@ public class ConfigManager {
             e.printStackTrace();
             throw new RuntimeException("config file not found at " + propertyFilePath);
         }
-    }
-
-    public static ConfigManager getInstance( ) {
-        if(configReader == null) {
-            configReader = new ConfigManager();
-        }
-        return configReader;
     }
 
     public String getBaseUrl() {
