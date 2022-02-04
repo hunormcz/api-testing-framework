@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         plugin = {"pretty", "html:target/cucumber", "json:target/jsonReports/EmployeeTests.json"},
         glue = "",
         features = {
-                "src/main/resources/features/getEmployee.ee.feature"
+                "src/main/resources/features/getEmployee.feature"
 
         })
 public class GetEmployeeTests {
