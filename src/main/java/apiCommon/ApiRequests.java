@@ -1,105 +1,132 @@
 package apiCommon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.Employee;
+import model.EmployeeServiceHelper;
 import model.responses.EmployeeResponse;
 import model.responses.EmployeesResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.ConfigManager;
-import utils.Logger;
 import utils.TestContext;
 
-import static io.restassured.RestAssured.*;
+import static net.serenitybdd.rest.SerenityRest.given;
+
 
 public class ApiRequests {
     private static String baseUrl = TestContext.INSTANCE.getBaseUrl();
-    static ObjectMapper mapper = new ObjectMapper();
+    private static Logger log = LogManager.getLogger(ApiRequests.class);
+
 
     public EmployeeResponse getEmployee(String id) throws JsonProcessingException {
-        Logger.log("get request to employee with id %s", id);
-        Response response = get(baseUrl + ApiEndpoints.EMPLOYEE_ENDPOINT + id);
-        ;
-        Logger.log("response: " + response.getBody().asString());
+        log.info("get request to employee with id %s", id);
 
+        String url = baseUrl + ApiEndpoints.EMPLOYEE_ENDPOINT + id;
+        Response response = getRequest(url);
+
+        log.info("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
-
-        return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
+        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
     }
 
     public EmployeesResponse getEmployees() throws JsonProcessingException {
-        Logger.log("get request to all employees");
-        Response response = get(baseUrl + ApiEndpoints.EMPLOYEES_ENDPOINT);
-        Logger.log("response: ", response.getBody().asString());
+        log.info("get request to all employees");
+        String url = baseUrl + ApiEndpoints.EMPLOYEES_ENDPOINT;
+        Response response = getRequest(url);
+
+        log.info("response: ", response.getBody().asString());
 
         TestContext.INSTANCE.add("response", response);
 
-        return mapper.readValue(response.getBody().asString(), EmployeesResponse.class);
+        return EmployeeServiceHelper.converToEmployees(response.getBody().asString());
     }
 
-    public void postEmployee() {
-        Logger.log("sending post request with partial data...");
-        JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
+    public void createEmployee() {
+        log.info("sending post request with partial data...");
+        JSONObject body = (JSONObject) TestContext.INSTANCE.get("request");
 
-        Response response = given()
-                .contentType("application/json")
-                .body(request)
-                .when()
-                .post(baseUrl + ApiEndpoints.CREATE_ENDPOINT);
-        ;
+        String url = baseUrl + ApiEndpoints.CREATE_ENDPOINT;
+        Response response = postRequest(url, body);
 
-        Logger.log("response: " + response.getBody().asString());
+        log.info("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
-
     }
 
-    public EmployeeResponse postEmployee(Employee employee) throws JsonProcessingException {
-        Logger.log("sending post request...");
 
-        Response response = given()
-                .contentType("application/json")
-                .body(employee)
-                .when()
-                .post(baseUrl + ApiEndpoints.CREATE_ENDPOINT);
-        ;
+    public EmployeeResponse createEmployee(Employee employee) throws JsonProcessingException {
+        log.info("sending post request...");
 
-        Logger.log("response: " + response.getBody().asString());
+        String url = baseUrl + ApiEndpoints.CREATE_ENDPOINT;
+        Response response = postRequest(url, employee);
+
+        log.info("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
 
-        return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
+        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
     }
 
     public EmployeeResponse putEmployee(String id, Employee employee) throws JsonProcessingException {
 
-        Logger.log("sending put request for id: %s", id);
-        Response response = given()
-                .contentType("application/json")
-                .body(employee)
-                .when().put(baseUrl + ApiEndpoints.UPDATE_ENDPOINT + id);
-        Logger.log("response: ", response.getBody().asString());
+        log.info("sending put request for id: %s", id);
+
+        String url = baseUrl + ApiEndpoints.UPDATE_ENDPOINT+id;
+        Response response = putRequest(url, employee);
+        log.info("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
 
-        return mapper.readValue(response.getBody().asString(), EmployeeResponse.class);
+        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
     }
 
     public void putEmployee(String id) {
-        Logger.log("sending put request with partial data...");
-        JSONObject request = (JSONObject) TestContext.INSTANCE.get("request");
+        log.info("sending put request with partial data...");
+        JSONObject body = (JSONObject) TestContext.INSTANCE.get("request");
 
-        Logger.log("sending put request for id: %s", id);
-        Response response = given()
-                .contentType("application/json")
-                .body(request)
-                .when().put(baseUrl + ApiEndpoints.UPDATE_ENDPOINT + id);
-        Logger.log("response: ", response.getBody().asString());
+        log.info("sending put request for id: %s", id);
+        String url = baseUrl + ApiEndpoints.UPDATE_ENDPOINT;
+        Response response = putRequest(url, body);
+
+        log.info("response: ", response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
     }
 
     public void deleteEmployee(String id) {
-        Logger.log("sending delete request for id: %s", id);
-        Response response = delete(baseUrl + ApiEndpoints.DELETE_ENDPOINT + "2");
-        Logger.log("response: " + response.getBody().asString());
+        log.info("sending delete request for id: %s", id);
+
+        String url = baseUrl + ApiEndpoints.DELETE_ENDPOINT + id;
+        Response response = deleteRequest(url);
+
+        log.info("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
+    }
+
+    private Response getRequest(String url) {
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(url);
+    }
+
+    private Response postRequest(String url, Object body) {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post(url);
+    }
+
+    private Response deleteRequest(String url) {
+        return given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(url);
+    }
+
+    private Response putRequest(String url, Object body) {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when().put(url);
     }
 }

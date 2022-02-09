@@ -1,11 +1,11 @@
 package stepDefinitions.employees;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import model.EmployeeServiceHelper;
 import model.responses.EmployeesResponse;
 import utils.TestContext;
 
@@ -62,11 +62,8 @@ public class ResponseAssertions {
     @Then("^Response body contains expected number of employees: (.*)")
     public void assertResponseBody(int number) throws JsonProcessingException {
         Response response = (Response) TestContext.INSTANCE.get("response");
-        String body = response.getBody().asString();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            EmployeesResponse employees = mapper.readValue(body, EmployeesResponse.class);
-
+            EmployeesResponse employees = EmployeeServiceHelper.converToEmployees(response.getBody().asString());
             assertThat("Number of employees is returned is different from expected", employees.getEmployees().size() == number, is(true));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -78,8 +75,9 @@ public class ResponseAssertions {
         Response response = (Response) TestContext.INSTANCE.get("response");
         StringBuilder errormessage = new StringBuilder();
 
-        Map<String, String> actualheaders = response.getHeaders().asList().stream().sorted(Comparator.comparing(Header::getName)).collect(Collectors.toMap(Header::getName, Header::getValue, (v1, v2) -> v2));
-//        Boolean identical = headers.entrySet().stream().allMatch(e -> e.getValue().equals(actualheaders.get(e.getKey())));
+        Map<String, String> actualheaders = response.getHeaders().asList().stream()
+                .sorted(Comparator.comparing(Header::getName))
+                .collect(Collectors.toMap(Header::getName, Header::getValue, (v1, v2) -> v2));
 
         assertThat(String.format("Expected headers size: %s, Actual: %s", headers.size(), actualheaders.entrySet().size()), headers.size() == actualheaders.entrySet().size(), is(true));
         for (String key : headers.keySet()) {

@@ -1,15 +1,15 @@
-Feature: create Employees
+Feature: Create Employees
 
   @Scenario1
   Scenario Outline: post Employee valid data
-    Given Create employee request:
+    Given Create employee request data:
       | name   | <name>   |
       | salary | <salary> |
       | age    | <age>    |
     When Send post request on /create
     Then Response status is 200 OK
     And The employee is returned with correct data
-    And Get request on v1/employee for the user created above
+    And Get request on /employee for the user created above
     #additional assertion because of endpoint instability - frequent 429
     And Response status is 200 OK
     And The employee is returned with correct data
@@ -19,7 +19,7 @@ Feature: create Employees
 
   @Scenario2
   Scenario: post Employee missing parameters from body
-    Given Create employee request with missing data:
+    Given Create employee request data with missing parameters:
       | salary | 133 |
       | age    | 18  |
     When Send invalid post request on /create
@@ -27,6 +27,6 @@ Feature: create Employees
 
   @Scenario3
   Scenario: post Employee empty body
-    Given Create empty request:
+    Given Create empty request data:
     When Send invalid post request on /create
 #    Then Response status is 400 - negative scenarion not handled on mockapi

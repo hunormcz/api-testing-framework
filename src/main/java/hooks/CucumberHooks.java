@@ -2,23 +2,25 @@ package hooks;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import utils.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utils.TestContext;
 
 public class CucumberHooks {
+    Logger log = LogManager.getLogger(CucumberHooks.class);
 
     @Before(order = 1)
     public void BeforeTests(){
         TestContext.INSTANCE.purge();
-        Logger.log("======Global before hook=======");
+        log.info("======Global before hook=======");
 
         TestContext.INSTANCE.initBaseUrl();
-        Logger.log("=====We are running our tests on: " + TestContext.INSTANCE.getBaseUrl());
+        log.info("=====We are running our tests on: " + TestContext.INSTANCE.getBaseUrl());
     }
 
     @After
     public void AfterTests(){
-        Logger.log("Global before hook");
+        log.info("Global before hook");
 
     }
 }

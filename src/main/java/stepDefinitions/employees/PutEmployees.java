@@ -1,21 +1,16 @@
 package stepDefinitions.employees;
 
-import apiCommon.ApiEndpoints;
 import apiCommon.ApiRequests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import model.Employee;
 import model.responses.EmployeeResponse;
-import utils.Logger;
 import utils.TestContext;
-
-import static io.restassured.RestAssured.put;
 
 public class PutEmployees {
     ApiRequests apiRequests = new ApiRequests();
 
-    @When("^Put request on v1/update with id : (.*)$")
+    @When("^Put request on /update with id : (.*)$")
     public void putRequestId(String employeeId) {
         Employee employee = (Employee) TestContext.INSTANCE.get("employeeReq");
 
@@ -27,7 +22,7 @@ public class PutEmployees {
         }
     }
 
-    @When("^Put request on v1/update for the created resource$")
+    @When("^Put request on /update for the created resource$")
     public void putRequestManipulatedId() {
         String employeeId = "23";
         //endpoint only has mock data, employee is not created - using available data
@@ -43,7 +38,7 @@ public class PutEmployees {
         }
     }
 
-    @When("^Send invalid Put request on v1/update$")
+    @When("^Send invalid Put request on /update$")
     public void putRequestInvalidRequest() {
         String employeeId = "23";
         //endpoint only has mock data, employee is not created - using available data

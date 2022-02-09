@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import model.Employee;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class EmployeeResponse {

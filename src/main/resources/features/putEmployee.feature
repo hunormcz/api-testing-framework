@@ -2,19 +2,19 @@ Feature: Put Employee
 
   @Scenario1
   Scenario Outline: PUT Employee endpoint
-    Given Create employee request:
+    Given Create employee request data:
       | name   | <name1>   |
       | salary | <salary1> |
       | age    | <age1>    |
     And Send post request on /create
-    When Create employee request:
+    When Create employee request data:
       | name   | <name2>   |
       | salary | <salary2> |
       | age    | <age2>    |
-    And Put request on v1/update for the created resource
+    And Put request on /update for the created resource
     Then Response status is 200 OK
     And The employee is returned with correct data
-    And Get request on v1/employee for the user created above
+    And Get request on /employee for the user created above
         #additional assertion because of endpoint instability - frequenst 429
     And Response status is 200 OK
     And The response has the following data:
@@ -27,14 +27,14 @@ Feature: Put Employee
 
   @Scenario2
   Scenario: Put request with missing data
-    Given Create employee request with missing data:
+    Given Create employee request data with missing parameters:
       | salary | 133 |
       | age    | 18  |
-    When Send invalid Put request on v1/update
+    When Send invalid Put request on /update
 #    Then Response status is 400 Bad Request
 
   @Scenario3
   Scenario: Put request with empty bodyu
-    Given Create empty request:
-    When Send invalid Put request on v1/update
+    Given Create empty request data:
+    When Send invalid Put request on /update
 #    Then Response status is 400 Bad Request

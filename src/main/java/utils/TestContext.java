@@ -1,6 +1,8 @@
 package utils;
 
-import java.io.ObjectInputFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,8 @@ public class TestContext {
     public final static TestContext INSTANCE = new TestContext();
     private Map<String, Object> testContext;
     private String baseUrl;
+    //Logger log = LoggerFactory.getLogger(EmployeeServiceHelper.class);
+    private static Logger log = LogManager.getLogger();
 
     private TestContext() {
         testContext = new HashMap<>();
@@ -15,10 +19,10 @@ public class TestContext {
 
     public void add(String objectKey, Object objectValue) {
         if (this.testContext.containsKey(objectKey)) {
-            Logger.log("Replacing key: %s value on testContext.", objectKey);
+            log.info("Replacing key: %s value on testContext.", objectKey);
             this.testContext.remove(objectKey);
         }
-        Logger.log("Adding key: %s to TestContext", objectKey);
+        log.info("Adding key: %s to TestContext", objectKey);
         this.testContext.put(objectKey, objectValue);
     }
 
@@ -27,7 +31,7 @@ public class TestContext {
     }
 
     public void purge() {
-        Logger.log("Purge TestContext.");
+        log.info("Purge TestContext.");
         this.testContext.clear();
     }
 

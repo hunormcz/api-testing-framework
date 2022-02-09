@@ -2,7 +2,7 @@ Feature: Get List of Employees
 
   @Scenario1
   Scenario: GET Employees endpoint
-    When Get request on v1/employees
+    When Get request on /employees
     Then Response status is 200 OK
     And Response headers are returned:
       | Cache-Control          | no-cache, private, max-age=31536000 |
