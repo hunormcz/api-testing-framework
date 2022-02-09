@@ -20,7 +20,7 @@ public class CucumberHooks {
 
     @After
     public void AfterTests(){
-        log.info("Global before hook");
+        log.info("Global after hook");
 
     }
 }
