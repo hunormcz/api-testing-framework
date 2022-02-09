@@ -1,5 +1,6 @@
 package stepDefinitions.employees;
 
+import apiCommon.ApiHelper;
 import apiCommon.ApiRequests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.Given;
@@ -21,35 +22,27 @@ public class CreateEmployee {
     @Given("^Create employee request data:")
     public void createRequest(Map<String, String> employeeData) {
         Employee employee = EmployeeServiceHelper.employeeMapper(employeeData);
-        TestContext.INSTANCE.add("employeeReq", employee);
+        TestContext.INSTANCE.add("requestBody", employee);
     }
 
     @Given("^Create employee request data with missing parameters:")
     public void createPartialRequest(Map<String, String> employeeData) {
-        EmployeeServiceHelper.createEmployeeRequest(employeeData);
+        ApiHelper.createEmployeeRequestData(employeeData);
     }
 
     @Given("^Create empty request data:")
     public void createEmptyRequest() {
-        EmployeeServiceHelper.createEmployeeEmptyRequestData();
+        ApiHelper.createEmployeeEmptyRequestData();
     }
 
     @When("^Send post request on /create$")
     public void sendPostRequest() {
-        Employee employee = (Employee) TestContext.INSTANCE.get("employeeReq");
-
         try {
-            EmployeeResponse employeeResponse = apiRequests.createEmployee(employee);
+            EmployeeResponse employeeResponse = apiRequests.createEmployee();
             TestContext.INSTANCE.add("employeeResponse", employeeResponse);
         } catch (JsonProcessingException e) {
             log.error(e.getStackTrace());
         }
     }
-
-    @When("^Send invalid post request on /create$")
-    public void sendInvalidPostRequest() {
-        apiRequests.createEmployee();
-    }
-
 
 }

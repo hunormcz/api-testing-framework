@@ -22,11 +22,11 @@ Feature: Create Employees
     Given Create employee request data with missing parameters:
       | salary | 133 |
       | age    | 18  |
-    When Send invalid post request on /create
+    When Send post request on /create
 #    Then Response status is 400 - negative scenarion not handled on mockapi
 
   @Scenario3
   Scenario: post Employee empty body
     Given Create empty request data:
-    When Send invalid post request on /create
+    When Send post request on /create
 #    Then Response status is 400 - negative scenarion not handled on mockapi

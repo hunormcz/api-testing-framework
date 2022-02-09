@@ -30,11 +30,11 @@ Feature: Put Employee
     Given Create employee request data with missing parameters:
       | salary | 133 |
       | age    | 18  |
-    When Send invalid Put request on /update
+    When Put request on /update for the created resource
 #    Then Response status is 400 Bad Request
 
   @Scenario3
   Scenario: Put request with empty bodyu
     Given Create empty request data:
-    When Send invalid Put request on /update
+    When Put request on /update for the created resource
 #    Then Response status is 400 Bad Request

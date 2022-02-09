@@ -23,7 +23,7 @@ public class EmployeeAssertions {
     @And("^The employee is returned with correct data")
     public void assertEmployeeData() {
         EmployeeResponse actualEmployee = (EmployeeResponse) TestContext.INSTANCE.get("employeeResponse");
-        Employee expectedEmployee = (Employee) TestContext.INSTANCE.get("employeeReq");
+        Employee expectedEmployee = (Employee) TestContext.INSTANCE.get("requestBody");
 
         String differences = EmployeeServiceHelper.compareEmployees(expectedEmployee, actualEmployee.getEmployee());
         assertThat("Returned values are NOT correct:" + differences, differences.equals(""), is(true));

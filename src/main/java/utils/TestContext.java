@@ -10,7 +10,6 @@ public class TestContext {
     public final static TestContext INSTANCE = new TestContext();
     private Map<String, Object> testContext;
     private String baseUrl;
-    //Logger log = LoggerFactory.getLogger(EmployeeServiceHelper.class);
     private static Logger log = LogManager.getLogger();
 
     private TestContext() {

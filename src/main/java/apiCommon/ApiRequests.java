@@ -3,102 +3,89 @@ package apiCommon;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import model.Employee;
 import model.EmployeeServiceHelper;
 import model.responses.EmployeeResponse;
 import model.responses.EmployeesResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
 import utils.TestContext;
+
+import javax.ws.rs.HttpMethod;
 
 import static net.serenitybdd.rest.SerenityRest.given;
 
 
 public class ApiRequests {
-    private static String baseUrl = TestContext.INSTANCE.getBaseUrl();
+
     private static Logger log = LogManager.getLogger(ApiRequests.class);
 
 
     public EmployeeResponse getEmployee(String id) throws JsonProcessingException {
-        log.info("get request to employee with id %s", id);
+        log.info("Get employee with id: &s", id);
 
-        String url = baseUrl + ApiEndpoints.EMPLOYEE_ENDPOINT + id;
-        Response response = getRequest(url);
-
-        log.info("response: " + response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
-        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
+        Response response = callEndpointWithMethod(
+                ApiHelper.generateEndpointUrl(ApiEndpoints.EMPLOYEE_ENDPOINT, id)
+                , HttpMethod.GET);
+        return EmployeeServiceHelper.convertToEmployee(response.getBody().asString());
     }
 
     public EmployeesResponse getEmployees() throws JsonProcessingException {
-        log.info("get request to all employees");
-        String url = baseUrl + ApiEndpoints.EMPLOYEES_ENDPOINT;
-        Response response = getRequest(url);
+        log.info("Get all employees..");
 
-        log.info("response: ", response.getBody().asString());
-
-        TestContext.INSTANCE.add("response", response);
-
-        return EmployeeServiceHelper.converToEmployees(response.getBody().asString());
+        Response response = callEndpointWithMethod(
+                ApiHelper.generateEndpointUrl(ApiEndpoints.EMPLOYEES_ENDPOINT)
+                , HttpMethod.GET);
+        return EmployeeServiceHelper.convertToEmployees(response.getBody().asString());
     }
 
-    public void createEmployee() {
-        log.info("sending post request with partial data...");
-        JSONObject body = (JSONObject) TestContext.INSTANCE.get("request");
-
-        String url = baseUrl + ApiEndpoints.CREATE_ENDPOINT;
-        Response response = postRequest(url, body);
-
-        log.info("response: " + response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
-    }
-
-
-    public EmployeeResponse createEmployee(Employee employee) throws JsonProcessingException {
+    public EmployeeResponse createEmployee() throws JsonProcessingException {
         log.info("sending post request...");
 
-        String url = baseUrl + ApiEndpoints.CREATE_ENDPOINT;
-        Response response = postRequest(url, employee);
-
-        log.info("response: " + response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
-
-        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
+        Response response = callEndpointWithMethod(
+                ApiHelper.generateEndpointUrl(ApiEndpoints.CREATE_ENDPOINT)
+                , HttpMethod.POST);
+        return EmployeeServiceHelper.convertToEmployee(response.getBody().asString());
     }
 
-    public EmployeeResponse putEmployee(String id, Employee employee) throws JsonProcessingException {
-
+    public EmployeeResponse putEmployee(String id) throws JsonProcessingException {
         log.info("sending put request for id: %s", id);
 
-        String url = baseUrl + ApiEndpoints.UPDATE_ENDPOINT+id;
-        Response response = putRequest(url, employee);
-        log.info("response: ", response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
-
-        return EmployeeServiceHelper.converToEmployee(response.getBody().asString());
-    }
-
-    public void putEmployee(String id) {
-        log.info("sending put request with partial data...");
-        JSONObject body = (JSONObject) TestContext.INSTANCE.get("request");
-
-        log.info("sending put request for id: %s", id);
-        String url = baseUrl + ApiEndpoints.UPDATE_ENDPOINT;
-        Response response = putRequest(url, body);
-
-        log.info("response: ", response.getBody().asString());
-        TestContext.INSTANCE.add("response", response);
+        Response response = callEndpointWithMethod(
+                ApiHelper.generateEndpointUrl(ApiEndpoints.UPDATE_ENDPOINT + id)
+                , HttpMethod.PUT);
+        return EmployeeServiceHelper.convertToEmployee(response.getBody().asString());
     }
 
     public void deleteEmployee(String id) {
         log.info("sending delete request for id: %s", id);
 
-        String url = baseUrl + ApiEndpoints.DELETE_ENDPOINT + id;
-        Response response = deleteRequest(url);
+        callEndpointWithMethod(
+                ApiHelper.generateEndpointUrl(ApiEndpoints.DELETE_ENDPOINT, id)
+                , HttpMethod.DELETE);
+    }
 
+    public Response callEndpointWithMethod(String url, String method) {
+        Response response;
+        Object body = TestContext.INSTANCE.get("requestBody");
+        switch (method) {
+            case HttpMethod.GET:
+                response = getRequest(url);
+                break;
+            case HttpMethod.POST:
+                response = postRequest(url, body);
+                break;
+            case HttpMethod.PUT:
+                response = putRequest(url, body);
+                break;
+            case HttpMethod.DELETE:
+                response = deleteRequest(url);
+                break;
+            default:
+                throw new Error("Method not supported: " + method);
+        }
         log.info("response: " + response.getBody().asString());
         TestContext.INSTANCE.add("response", response);
+        return response;
     }
 
     private Response getRequest(String url) {

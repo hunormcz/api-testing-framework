@@ -63,7 +63,7 @@ public class ResponseAssertions {
     public void assertResponseBody(int number) throws JsonProcessingException {
         Response response = (Response) TestContext.INSTANCE.get("response");
         try {
-            EmployeesResponse employees = EmployeeServiceHelper.converToEmployees(response.getBody().asString());
+            EmployeesResponse employees = EmployeeServiceHelper.convertToEmployees(response.getBody().asString());
             assertThat("Number of employees is returned is different from expected", employees.getEmployees().size() == number, is(true));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
