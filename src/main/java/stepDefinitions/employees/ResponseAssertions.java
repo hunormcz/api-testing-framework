@@ -79,7 +79,6 @@ public class ResponseAssertions {
                 .sorted(Comparator.comparing(Header::getName))
                 .collect(Collectors.toMap(Header::getName, Header::getValue, (v1, v2) -> v2));
 
-        assertThat(String.format("Expected headers size: %s, Actual: %s", headers.size(), actualheaders.entrySet().size()), headers.size() == actualheaders.entrySet().size(), is(true));
         for (String key : headers.keySet()) {
 
             if (!headers.get(key).equals(actualheaders.get(key)) && (!("ExpiresDate").contains(key))) {
